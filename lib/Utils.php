@@ -7,6 +7,8 @@ class Utils
 
     public static function toCamelCase($str) 
     {
+        //The e modifier has been deprecated, so we have to replace preg_replace
+        //with preg_replace_callback
         return preg_replace_callback( '/_([a-z])/', function( $matches){
             return strtoupper( $matches[1]);
         }, $str);

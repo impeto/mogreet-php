@@ -1,5 +1,5 @@
 {
-  "name": "mogreet/mogreet-php",
+  "name": "impeto/mogreet-php",
   "type": "library",
   "description": "Mogreet PHP Library",
   "keywords": [
@@ -15,6 +15,10 @@
     {
       "name": "Jonathan Perichon",
       "email": "jonathan@mogreet.com"
+    },
+    {
+      "name": "Alin Mazilu",
+      "email": "impeto75@gmail.com"
     }
   ],
   "require": {

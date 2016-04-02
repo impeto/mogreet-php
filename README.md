@@ -1,3 +1,9 @@
+# Disclaimer
+
+This is a __drastically__ modified version of the official Mogreet PHP repo, which you can find [here](https://github.com/jperichon/mogreet-php).
+Please use that one if you are running PHP < 5.5 or if you, for some reason, do not use `namespace`s in your app.
+
+***
 ## Introduction
 
 This is a PHP wrapper for the Mogreet API.
@@ -10,7 +16,7 @@ Others methods will be added later.
 
 First clone the git repo:
     
-    git clone https://github.com/jperichon/mogreet-php.git
+    git clone https://github.com/impeto/mogreet-php.git
     
 Then include the Client:
 ```php 
@@ -21,13 +27,17 @@ require_once('/path/to/mogreet-php/Mogreet.php');
 
 ### Create a client
 
+There are two ways to create a client. One is by providing the Mogreet `clientId` and `token` to the `Mogreet` class' constructor, like this:
 ```php
-
-require_once('/path/to/mogreet-php/Mogreet.php');
 
 $clientId = 'xxxxx' // Your Client ID from https://developer.mogreet.com/dashboard
 $token = 'xxxxx' // Your token from https://developer.mogreet.com/dashboard
 $client = new Mogreet($clientId, $token);
+```
+The other way is by storing the `clientId` and `token` in two environment variables named `MOGREET_CLIENT_ID` and `MOGREET_TOKEN` respectively. Instantiating the `Mogreet` class with an empty constructor will instantiate the class with these values:
+
+```php
+$client = new Mogreet();
 ```
 
 ### Ping
