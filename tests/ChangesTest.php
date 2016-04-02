@@ -16,7 +16,7 @@ class ChangesTest extends PHPUnit_Framework_TestCase
 
         $client = new Mogreet();
 
-        $result = $client->system->ping();
+        $result = $client->system()->ping();
 
         $this->assertEquals( "success", $result->status);
     }
@@ -29,7 +29,7 @@ class ChangesTest extends PHPUnit_Framework_TestCase
             "message" => "Hello from KNR. This is just a test"
         ];
 
-        $result = (new Mogreet)->transaction->send( $data);
+        $result = (new Mogreet)->transaction()->send( $data);
 
         $this->assertEquals('success', $result->status);
     }
