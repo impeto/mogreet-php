@@ -1,6 +1,8 @@
 <?php
 
-class Mogreet_Transaction 
+namespace Mogreet;
+
+class Transaction
 {
     protected $client;
 
@@ -19,5 +21,3 @@ class Mogreet_Transaction
         return $this->client->processRequest('moms', 'transaction.lookup', $params);
     } 
 }
-
-?>

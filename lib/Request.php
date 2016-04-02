@@ -1,6 +1,8 @@
 <?php
 
-class Mogreet_Request 
+namespace Mogreet;
+
+class Request
 {
     private static $_requiredParams = array(
         'system.ping'        => array(),
@@ -31,9 +33,9 @@ class Mogreet_Request
 
     protected static function _checkParams($api, $params)
     {
-        $missingParams = array_diff(Mogreet_Request::$_requiredParams[$api], array_keys($params));
+        $missingParams = array_diff(static::$_requiredParams[$api], array_keys($params));
         if (count($missingParams) != 0) {
-            throw new Mogreet_Exception(
+            throw new Exception(
                 'Missing required params: '. implode($missingParams, ', '), $api, $params
             );
         }
@@ -41,10 +43,10 @@ class Mogreet_Request
 
     public static function postRequest($base, $api, $params, $multipart) 
     {
-        Mogreet_Request::_checkParams($api, $params);
+        static::_checkParams($api, $params);
 
         if (!($ch = curl_init())) {
-            throw new Exception("A problem occured during the request");
+            throw new Exception("A problem occurred during the request");
         }
         curl_setopt($ch, CURLOPT_URL, Mogreet::BASE_API . '/' . $base . '/' . $api);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -59,12 +61,10 @@ class Mogreet_Request
         }
 
         if (!($data = curl_exec($ch))) {
-            throw new Exception("A problem occured during the request");
+            throw new Exception("A problem occurred during the request");
         }
         curl_close($ch);
 
         return $data;
     }
 }
-
-?>

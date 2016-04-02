@@ -1,6 +1,8 @@
 <?php
 
-class Mogreet_System 
+namespace Mogreet;
+
+class System
 {
     private $client;
 
@@ -14,5 +16,3 @@ class Mogreet_System
         return $this->client->processRequest('moms', 'system.ping', $params);
     }
 }
-
-?>

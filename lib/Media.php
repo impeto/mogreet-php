@@ -1,6 +1,8 @@
 <?php
 
-class Mogreet_Media 
+namespace Mogreet;
+
+class Media
 {
     private $client;
 
@@ -31,5 +33,3 @@ class Mogreet_Media
         return $this->client->processRequest('cm', 'media.upload', $params, true);
     }
 }
-
-?>

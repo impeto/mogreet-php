@@ -1,6 +1,8 @@
 <?php
 
-class Mogreet_User 
+namespace Mogreet;
+
+class User
 {
     private $client;
 
@@ -34,5 +36,3 @@ class Mogreet_User
         return $this->client->processRequest('moms', 'user.uncache', $params);
     }
 }
-
-?>

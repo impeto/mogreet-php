@@ -1,6 +1,8 @@
 <?php
 
-class Mogreet_Response 
+namespace Mogreet;
+
+class Response
 {
     private $format;
     private $data;
@@ -16,7 +18,7 @@ class Mogreet_Response
     protected function buildObjectFromJson() 
     {
         /* $this->obj = json_decode($this->data); */
-        $this->obj = Mogreet_Utils::json_to_object(json_decode($this->data, true));
+        $this->obj = Utils::json_to_object(json_decode($this->data, true));
     }
 
     public function __get($property) 
@@ -29,5 +31,3 @@ class Mogreet_Response
         return $this->data;
     }
 }
-
-?>

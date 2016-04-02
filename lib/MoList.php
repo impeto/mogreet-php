@@ -1,6 +1,8 @@
 <?php
 
-class Mogreet_List 
+namespace Mogreet;
+
+class MoList
 {
     private $client;
 
@@ -54,5 +56,3 @@ class Mogreet_List
         return $this->client->processRequest('cm', 'list.info', $params);
     }
 }
-
-?>

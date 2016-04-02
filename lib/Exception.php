@@ -1,7 +1,8 @@
 <?php
 
-class Mogreet_Exception 
-    extends Exception
+namespace Mogreet;
+
+class Exception extends \Exception
 {
     protected $api;
     protected $params;
@@ -23,5 +24,3 @@ class Mogreet_Exception
         return $this->params;
     }
 }
-
-?>

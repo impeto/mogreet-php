@@ -1,6 +1,8 @@
 <?php
 
-class Mogreet_Keyword 
+namespace Mogreet;
+
+class Keyword
 {
     private $client;
 
@@ -30,5 +32,3 @@ class Mogreet_Keyword
     } 
 
 }
-
-?>

@@ -1,11 +1,17 @@
 <?php
 
-class Mogreet_Utils
+namespace Mogreet;
+
+class Utils
 {
 
     public static function toCamelCase($str) 
     {
-        return preg_replace('/_([a-z])/e', "strtoupper('\\1')", $str);
+        return preg_replace_callback( '/_([a-z])/', function( $matches){
+            return strtoupper( $matches[1]);
+        }, $str);
+
+        //return preg_replace('/_([a-z])/e', "strtoupper('\\1')", $str);
     }
 
     public static function fromCamelCase($str)
@@ -24,17 +30,17 @@ class Mogreet_Utils
     public static function json_to_object($in)
     {
         $is_arr = is_array($in);
-        if ($is_arr && Mogreet_Utils::is_assoc($in)) {
-            $obj = new stdClass();
+        if ($is_arr && static::is_assoc($in)) {
+            $obj = new \stdClass();
             foreach ($in as $k => $v) {
-                $k = Mogreet_Utils::toCamelCase($k);
-                $obj->$k = Mogreet_Utils::json_to_object($v);
+                $k = static::toCamelCase($k);
+                $obj->$k = static::json_to_object($v);
             }
         } else if ($is_arr) {
             $obj = array();
             foreach ($in as $k => $v) {
-                $k = Mogreet_Utils::toCamelCase($k);
-                $obj[$k] = Mogreet_Utils::json_to_object($v);
+                $k = static::toCamelCase($k);
+                $obj[$k] = static::json_to_object($v);
             }
         } else {
             $obj = $in;
@@ -42,5 +48,3 @@ class Mogreet_Utils
         return $obj;
     }
 }
-
-?>
