@@ -7,21 +7,18 @@ Please use that one if you are running PHP < 5.5 or if you, for some reason, do 
 ## Introduction
 
 This is a PHP wrapper for the Mogreet API.
-Tests and a solution to install the wrapper using a package manager are coming soon.
 
 ## Installation
 
-For now, you can use **mogreet-php** only by checking out this repo.
-Others methods will be added later.
+The installation is done via Composer:
 
-First clone the git repo:
+```php
+ composer require impeto/mogreet-php
+```
+
+Or by cloning this repo:
     
     git clone https://github.com/impeto/mogreet-php.git
-    
-Then include the Client:
-```php 
-require_once('/path/to/mogreet-php/Mogreet.php');
-```
 
 ## Usage examples
 
@@ -44,27 +41,27 @@ $client = new Mogreet();
 
 ```php
 
-$response = $client->system->ping();
-print $response->message;
+$response = $client->system()->ping();
+echo $response->message;
 ```
 
 ### Send an SMS to one recipient
 
 ```php
 
-$response = $client->transaction->send(array(
+$response = $client->transaction()->send(array(
     'campaign_id' => 'xxxxx', // Your SMS campaign ID from https://developer.mogreet.com/dashboard
     'to' => '9999999999',
-    'message' => 'This is super easy!'
+    'message' => 'Hello form Mogreet API!'
 ));
-print $response->messageId;
+echo $response->messageId;
 ```
 
 ### Send an MMS to one recipient
 
 ```php
 
-$response = $client->transaction->send(array(
+$response = $client->transaction()->send(array(
     'campaign_id' => 'xxxxx', // Your MMS campaign ID from https://developer.mogreet.com/dashboard
     'to' => '9999999999',
     'message' => 'This is super easy!',
@@ -76,7 +73,7 @@ print $response->messageId;
 
 ```php
 
-$response = $client->media->upload(array(
+$response = $client->media()->upload(array(
     'type' => 'image',
     'name' => 'mogreet logo',
     'file' => '/path/to/image/mogreet.png',
@@ -91,7 +88,7 @@ print $response->media->contentId;
 
 ```php
 
-$response = $client->media->listAll();
+$response = $client->media()->listAll();
 foreach($response->mediaList as $media) {
     print $media->contentId . ' => ' . $media->name . ' ' . $media->smartUrl . '<br />';
 }
@@ -115,5 +112,5 @@ The full documentation for the Mogreet API is available [here](https://developer
 
 ## Prerequisites
 
-* PHP >= 5.4
+* PHP >= 5.5
 * The PHP JSON extension
