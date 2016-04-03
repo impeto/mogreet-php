@@ -13,7 +13,7 @@ This is a PHP wrapper for the Mogreet API.
 The installation is done via Composer:
 
 ```php
- composer require impeto/mogreet-php
+     composer require impeto/mogreet-php
 ```
 
 Or by cloning this repo:
@@ -26,15 +26,46 @@ Or by cloning this repo:
 
 There are two ways to create a client. One is by providing the Mogreet `clientId` and `token` to the `Mogreet` class' constructor, like this:
 ```php
+...
+use Mogreet\Client;
+...
 
-$clientId = 'xxxxx' // Your Client ID from https://developer.mogreet.com/dashboard
-$token = 'xxxxx' // Your token from https://developer.mogreet.com/dashboard
-$client = new Mogreet($clientId, $token);
+$clientId = 'xxxxx'; // Your Client ID from https://developer.mogreet.com/dashboard
+$token = 'xxxxx'; // Your token from https://developer.mogreet.com/dashboard
+$client = new Client( $clientId, $token);
 ```
 The other way is by storing the `clientId` and `token` in two environment variables named `MOGREET_CLIENT_ID` and `MOGREET_TOKEN` respectively. Instantiating the `Mogreet` class with an empty constructor will instantiate the class with these values:
 
 ```php
-$client = new Mogreet();
+$client = new Mogreet\Client();
+```
+
+## Laravel Support
+
+The package includes a Laravel `ServiceProvider` as well as a `Facade` for easy access to functionality in Laravel style. All you have to do is to register the Service Provider and the Facade with the Laravel App in `config/app.php` file:
+
+```php
+     ...
+     'providers' => [
+          ...
+          Mogreet\Laravel\MogreetServiceProvider::class,
+          ...
+     ],
+     ...
+     'aliases' => [
+          ...
+          'Mogreet' => Mogreet\Laravel\MogreetFacade::class,
+          ...
+     ]
+     
+     ...
+     //then you can use it as
+     $result = Mogreet::system()->ping();
+     //or
+     $result = app('mogreet')->system()->ping();
+     //or
+     $result = app(Mogreet\Client::class)->system()->ping();
+     return $result->status;
 ```
 
 ### Ping
@@ -79,9 +110,9 @@ $response = $client->media()->upload(array(
     'file' => '/path/to/image/mogreet.png',
     // to ingest a file already online, use: 'url' => 'https://wp-uploads.mogreet.com/wp-uploads/2013/02/API-Beer-sticker-300dpi-1024x1024.jpg'
 ));
-print $response->media->smartUrl;
-print '<br/>';
-print $response->media->contentId;
+echo $response->media->smartUrl;
+echo '<br/>';
+echo $response->media->contentId;
 ```
 
 ### List all medias
@@ -90,14 +121,14 @@ print $response->media->contentId;
 
 $response = $client->media()->listAll();
 foreach($response->mediaList as $media) {
-    print $media->contentId . ' => ' . $media->name . ' ' . $media->smartUrl . '<br />';
+    echo $media->contentId . ' => ' . $media->name . ' ' . $media->smartUrl . '<br />';
 }
 ```
 
 ## Notes
 
 With the Response object, you can print the plain JSON response of the API
-call (print $response), or access directly a field (e.g: $response->message).
+call (`echo $response`), or access directly a field (e.g: $response->message).
 
 Due to the keyword restriction on 'list' and the existing function 'empty()' in
 PHP, I changed the mappings of the following API calls:

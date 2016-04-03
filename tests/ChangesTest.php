@@ -24,9 +24,9 @@ class ChangesTest extends PHPUnit_Framework_TestCase
     public function testSendingAMessage()
     {
         $data = [
-            "campaign_id" => getenv( 'MOGREET_CAMPAIGN'),
+            "campaign_id" => getenv( 'MOGREET_TEST_CAMPAIGN'),
             "to" => getenv( 'MOGREET_TEST_NUMBER'),
-            "message" => "Hello, this is just a test message from the API."
+            "message" => "Hello from the Mogreet PHP Library. You can send SMS now."
         ];
 
         $result = (new Client)->transaction()->send( $data);
