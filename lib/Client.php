@@ -2,9 +2,9 @@
 
 namespace Mogreet;
 
-class Mogreet
+class Client
 {
-    const USER_AGENT = 'mogret-php/1.0';
+    const USER_AGENT = 'impeto/mogreet-php/2.0';
     const BASE_API = 'https://api.mogreet.com';
 
     private $clientId;

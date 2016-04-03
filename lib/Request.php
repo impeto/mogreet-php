@@ -45,26 +45,29 @@ class Request
     {
         static::_checkParams($api, $params);
 
-        if (!($ch = curl_init())) {
-            throw new Exception("A problem occurred during the request");
-        }
-        curl_setopt($ch, CURLOPT_URL, Mogreet::BASE_API . '/' . $base . '/' . $api);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_USERAGENT, Mogreet::USER_AGENT);
-
-        if ($multipart) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-        } else {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+        if ( ($ch = curl_init()) === false) {
+            throw new Exception( 'Could not initialize cURL.');
         }
 
-        if (!($data = curl_exec($ch))) {
-            throw new Exception("A problem occurred during the request");
-        }
-        curl_close($ch);
+        $curlOpts = [
+            CURLOPT_URL => sprintf( '%s/%s/%s', Client::BASE_API, $base, $api),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_CONNECTTIMEOUT => 5,
+            CURLOPT_USERAGENT => Client::USER_AGENT,
+            CURLOPT_POSTFIELDS => $multipart ? $params : http_build_query( $params)
+        ];
 
-        return $data;
+        curl_setopt_array( $ch, $curlOpts);
+
+        try {
+            if ( ( $data = curl_exec( $ch)) === false) {
+                throw new Exception( curl_error( $ch), $api, $params, curl_errno( $ch));
+            }
+
+            return $data;
+        } finally {
+            curl_close( $ch);
+        }
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use Dotenv\Dotenv;
-use Mogreet\Mogreet;
+use Mogreet\Client;
 
 class ChangesTest extends PHPUnit_Framework_TestCase
 {
@@ -14,7 +14,7 @@ class ChangesTest extends PHPUnit_Framework_TestCase
     public function testNoExceptionWhenCreatingObjects()
     {
 
-        $client = new Mogreet();
+        $client = new Client();
 
         $result = $client->system()->ping();
 
@@ -26,11 +26,11 @@ class ChangesTest extends PHPUnit_Framework_TestCase
         $data = [
             "campaign_id" => getenv( 'MOGREET_CAMPAIGN'),
             "to" => getenv( 'MOGREET_TEST_NUMBER'),
-            "message" => "Hello from KNR. This is just a test"
+            "message" => "Hello, this is just a test message from the API."
         ];
 
-        $result = (new Mogreet)->transaction()->send( $data);
+        $result = (new Client)->transaction()->send( $data);
 
-        $this->assertEquals('success', $result->status);
+        $this->assertEquals( 'success', $result->status);
     }
 }

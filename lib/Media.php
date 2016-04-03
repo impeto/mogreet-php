@@ -6,7 +6,7 @@ class Media
 {
     private $client;
 
-    public function __construct(Mogreet $client)
+    public function __construct(Client $client)
     {
         $this->client = $client;
     }
