@@ -11,7 +11,13 @@ class MogreetServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $client = new Client();
+        $config = $this->app->make('config');
+
+        if ( $config->has( 'mogreet')){
+            $client = new Client( $config->get('mogreet.client_id'), $config->get('mogreet.token'));
+        } else {
+            $client = new Client();
+        }
 
         $this->app->singleton('mogreet', function( $app) use ( $client){
             return $client;

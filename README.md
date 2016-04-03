@@ -24,20 +24,21 @@ Or by cloning this repo:
 
 ### Create a client
 
-There are two ways to create a client. One is by providing the Mogreet `clientId` and `token` to the `Mogreet` class' constructor, like this:
+There are two ways to create a client. One is by providing the Mogreet `clientId` and `token` to the `Mogreet\Client` class' constructor, like this:
 ```php
+<?php
 ...
 use Mogreet\Client;
 ...
 
-$clientId = 'xxxxx'; // Your Client ID from https://developer.mogreet.com/dashboard
-$token = 'xxxxx'; // Your token from https://developer.mogreet.com/dashboard
-$client = new Client( $clientId, $token);
+     $clientId = 'xxxxx'; // Your Client ID from https://developer.mogreet.com/dashboard
+     $token = 'xxxxx'; // Your token from https://developer.mogreet.com/dashboard
+     $client = new Client( $clientId, $token);
 ```
 The other way is by storing the `clientId` and `token` in two environment variables named `MOGREET_CLIENT_ID` and `MOGREET_TOKEN` respectively. Instantiating the `Mogreet` class with an empty constructor will instantiate the class with these values:
 
 ```php
-$client = new Mogreet\Client();
+     $client = new Mogreet\Client();
 ```
 
 ## Laravel Support
@@ -57,9 +58,11 @@ The package includes a Laravel `ServiceProvider` as well as a `Facade` for easy 
           'Mogreet' => Mogreet\Laravel\MogreetFacade::class,
           ...
      ]
-     
+```
+ Then you can use it like this:
+ 
+```php
      ...
-     //then you can use it as
      $result = Mogreet::system()->ping();
      //or
      $result = app('mogreet')->system()->ping();
@@ -67,6 +70,19 @@ The package includes a Laravel `ServiceProvider` as well as a `Facade` for easy 
      $result = app(Mogreet\Client::class)->system()->ping();
      return $result->status;
 ```
+
+### Configuration
+
+When resolving the `Mogreet\Client` object form the Laravel IoC, using the `Mogreet` facade, `app('mogreet')` or `app(Mogreet\Client::class)`, the `MogreetServiceProvider` will check for the existence of a `config/mogreet.php` file. If the file exists, it will use Laravel's `Config` mechanism to obtain the `client_id` and `token` values, like this: `Config::get( 'mogreet.client_id')` and `Config::get( 'mogreet.token')`. So, what you have to do is create a `config/mogreet.php` file with the following contents:
+
+```php
+<?php
+return [
+     'client_id' => 'your client id here',
+     'token' => 'your token here'
+];
+```
+If the config file does not exist, then `MogreetServiceProvider` will instantiate the `Client` class with an empty constructor, which means that the `client_id` and `token` values will be obtained from the environment variables, as explained above. In order to use this package in Laravel style, you must at the least create the environment variables `MOGREET_CLIENT_ID` and `MOGREET_TOKEN`; otherwise you will have to instantiate the `Client` class manually as if you were using vanilla PHP.
 
 ### Ping
 
