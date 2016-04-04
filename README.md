@@ -114,7 +114,7 @@ $response = $client->transaction()->send(array(
     'message' => 'This is super easy!',
     'content_url' => 'https://wp-uploads.mogreet.com/wp-uploads/2013/02/API-Beer-sticker-300dpi-1024x1024.jpg'
 ));
-print $response->messageId;
+echo $response->messageId;
 ```
 ### Upload a media file
 
